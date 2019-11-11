@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express';
 import { User } from '../models/User';
 
 import * as bcrypt from 'bcrypt';
+// renamed to jwt1 to get a better sense of the typescript import
 import * as jwt1 from 'jsonwebtoken';
 import { NextFunction } from 'connect';
 
@@ -24,13 +25,9 @@ async function comparePasswords(plainTextPassword: string, hash: string): Promis
 
 function generateJWT(user: User): string {
     //@TODO Use jwt to create a new JWT Payload containing
-    //var jwt = require('jsonwebtoken');
-    //return "JWT";
-    //console.log(config)
-    //console.log(user);
+    // had to use a keyvalue pait for user; otherwize get JWT malformed Error
     const token = jwt1.sign({"user":user}, config.jwt.secret);
     return token;
-    //jwt.sign(user, "helloworld");
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
